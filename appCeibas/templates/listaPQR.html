@@ -1,0 +1,30 @@
+
+{% extends "index.html" %}
+{% block menu %}
+{% include "menu.html" %}
+{% endblock %}
+{% block contenido %}
+<div class="d-flex flex-column align-items-center justify-content-center" style="padding: 200px;">
+    <h1 class="text-center fw-bold" style="color: black;">Listar PQR</h1>
+    {% for pqr in pqrs  %}
+    <form action="{% url 'tomar_pqr_abogado' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group row">
+            <div class="mb-3 col-lg-4">
+                <label class="fw-bold" style="color: black;">Consumidor :</label>
+                <label>{{pqr.pqrConsumidor.perNombres}}</label>  
+                <input type="hidden" value="{{pqr.id}}" name="id_pqr">
+                <input type="hidden" name="id_abogado" value="{{request.user.id}}">
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn fw-bold" style="background-color: black; color: white;">Tomar</button>
+                </div>
+                <br><br>
+            </div>    
+        </div> 
+    </form>
+    {% endfor %}
+</div>
+{% endblock %}
+{% block piePagina %}
+{% include "piePagina.html" %}
+{% endblock %}

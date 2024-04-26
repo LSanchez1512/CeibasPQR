@@ -1,0 +1,124 @@
+{% load static %}
+<link rel="stylesheet" href="{% static '../static/css/app.css' %}">
+<header>
+  <img src="{% static '../static/img/Logo.png'%}" id="logo" alt="Logo">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" id="navigation">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <ion-icon name="menu-outline" id="iconoxdMenu"></ion-icon>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link active" aria-current="page" href="/">Inicio</a>
+          <a class="nav-link" href="../media/manualusuario.pdf" download style="display: flex; align-items: center;">
+            Manual de usuario<i class="bi bi-question-circle"></i>
+          </a>
+          
+          {% if request.user.is_authenticated %}
+          <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %}" style="display: flex; align-items: center;">Dashboard</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'logout' %}" style="display: flex; align-items: center;">Logout</a>
+          <span class="nav-link active" aria-current="page" style="display: flex; align-items: center; color: rgb(251, 203, 114);">{{request.user.perCorreo}}</span>
+          {% if user.userFoto != "" and user.userFoto != "False" %}
+          <img id="fotoPerfil" src="../media/{{request.user.userFoto}}" alt="Foto Usuario" style="width: 50px; height: 50px;">
+  
+          {% else %}
+          <img src="https://objetivoligar.com/wp-content/uploads/2017/03/blank-profile-picture-973460_1280.jpg"
+            alt="No foto" style="width:60px;" class="rounded-pill">
+          {% endif %}
+          {% else %}
+          <button class="btnLogin-popup" id="colorFondo">Iniciar sesión</button>
+          {% endif %}
+            
+        </div>
+      </div>
+    </div>
+  </nav>
+
+</header>
+
+<div style="position: sticky; z-index: 9999; display: grid; place-items: center;" id="login">
+  <div class="wrapper" id="wrp" style="margin: 0% auto; z-index: 2000;  ">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <span class="icon-close"><ion-icon name="close-outline"></ion-icon></span>
+    <div class="form-box login">
+      <h2>Iniciar Sesión</h2>
+      <form id="demo-form" method="post">
+        {% csrf_token %}
+        <div class="input-box">
+          <span class="icon"><ion-icon name="mail-outline"></ion-icon></span>
+          <input type="email" id="txtUsername" name="email" required />
+          <label for="txtUsername">Correo Electrónico</label>
+        </div>
+        <div class="input-box">
+          <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+          <input type="password" id="txtPassword" name="password" required />
+          <label for="txtPassword">Contraseña</label>
+        </div>
+        <div class="remember-forgot">
+          <label>
+            <input type="checkbox" id="showPassword">
+            Mostrar Contraseña
+          </label>
+        </div>
+        <div style="display: flex; justify-content: center; align-items: center;">
+          <label>
+            <a href="{% url 'password_reset' %}">
+              <p style="color: #000;">¿Olvidaste tu contraseña?</p>
+            </a>
+          </label>
+        </div>
+
+        <button class="g-recaptcha btn1" type="submit" data-sitekey="6LevdIonAAAAAP23toHyirgase9fx1NzOQfOfFSO"
+          data-callback='onSubmit' data-action='submit'>Ingresar</button>
+        <div></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function onSubmit(token) {
+    document.getElementById("demo-form").submit();
+  }
+
+  const passwordInput = document.getElementById('txtPassword');
+  const showPasswordCheckbox = document.getElementById('showPassword');
+
+  showPasswordCheckbox.addEventListener('change', function () {
+    if (this.checked) {
+      passwordInput.type = 'text';
+    } else {
+      passwordInput.type = 'password';
+    }
+  });
+</script>
+<script>
+  window.onload = function () {
+    var myInput = document.getElementById('txtPassword');
+    myInput.onpaste = function (e) {
+      e.preventDefault();
+      alert("Esta acción está prohibida");
+    }
+
+    myInput.oncopy = function (e) {
+      e.preventDefault();
+      alert("Esta acción está prohibida");
+    }
+  }
+</script>
+{% if mensaje %}
+<script>
+  Swal.fire({
+    title: 'CeibasPQR',
+    text: '{{ mensaje }}',
+    icon: 'info',
+    confirmButtonColor: 'black',
+    confirmButtonText: 'Aceptar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.href = "/";
+    }
+  });
+</script>
+{% endif %}

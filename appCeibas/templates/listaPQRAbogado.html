@@ -1,0 +1,18 @@
+
+{% extends "index.html" %}
+{% block menu %}
+{%endblock %}
+{% block contenido %}
+{% load static %}
+<script src="{% static '../static/js/inactividad.js' %}"></script>
+<div class="d-flex flex-column align-items-center justify-content-center" style="padding: 200px;">
+    <h1 class="text-center fw-bold" style="color: black;">PQR por Abogado</h1>
+    {% for pqr in pqrs %}
+       {{pqr.pqrConsumidor.perNombres}}-{{pqr.pqrFecha}}<br> 
+       {{pqr.pqrDescripcion}} - <a href="{% url 'responder_pqr' pqr.id %}">Responder</a><br><br><hr>
+    {% endfor %}
+</div>
+{%endblock %}
+{% block piePagina %}
+{% include "piePagina.html" %}
+{%endblock %}

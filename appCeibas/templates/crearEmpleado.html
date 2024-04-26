@@ -1,0 +1,52 @@
+{% extends "index.html" %}
+{% block menu %}
+{%endblock %}
+{% block contenido%}
+{% load static %}
+<script src="{% static '../static/js/inactividad.js' %}"></script>
+<div class="d-flex justify-content-center align-items-center" style="margin-bottom: 7rem;">
+    <form  action="" method="post" enctype="multipart/form-data">
+        {% csrf_token%}
+        <h3 class="text-center fw-bold" style="color: black;">REGISTRAR EMPLEADO</h3>
+        <br>
+        <div class="form-group row">
+            <div class="mb-3 col-lg-4">
+                <label class="fw-bold" style="color: black;">Número Identificación :</label>
+                {{form.perIdentificacion}}<br>
+            </div>    
+            <div class="mb-3 col-lg-4">
+                <label class="fw-bold" style="color: black;">Nombres :</label>
+                {{form.perNombres}}<br>
+            </div>    
+            <div class="mb-3 col-lg-4">
+                <label class="fw-bold" style="color: black;">Apellidos :</label>
+                {{form.perApellidos}}<br>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="mb-3 col-lg-4">
+                <label class="fw-bold" style="color: black;">Correo Electrónico :</label>
+                {{form.perCorreo}}<br>
+            <div class="mb-3 col-lg-4">
+                <label class="fw-bold" style="color: black;">Número de Celular :</label>
+                {{form.perNumeroCelular}}<br>
+            </div>
+            <div class="mb-3 col-lg-4">
+                <label class="fw-bold" style="color: black;">Foto :</label>
+                {{form.userFoto}}<br>
+            </div>
+            <div class="mb-3 col-lg-4">
+                <label class="fw-bold" style="color: black;">Tipo de empleado:</label>
+                {{form.userTipo}}<br>
+            </div>
+        </div>
+        <br>
+        <div class="d-flex justify-content-center">
+            <button type="submit" >Registrar empleado</button>
+        </div>
+    </form>
+</div>
+{%endblock %}
+{% block piePagina %}
+{% include "piePagina.html" %}
+{%endblock %}

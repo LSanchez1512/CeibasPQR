@@ -1,0 +1,116 @@
+{% extends "index.html" %}
+{% block menu %}
+{% include "menu.html" %}
+{%endblock %}
+{% block contenido %}
+{% load static %}
+<style>
+  .ini {
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+  }
+
+  h1 {
+    font-size: 36px;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #514b4b;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  p {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+
+  #map {
+    height: 300px;
+    width: 100%;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 800px;
+    /* Establece un ancho máximo para evitar que la tabla se extienda demasiado en pantallas grandes */
+    margin: 0 auto;
+    /* Centra la tabla horizontalmente en la pantalla */
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding: 10px 20px;
+    /* Ajusta el espacio según tus preferencias */
+  }
+</style>
+
+<div class="ini">
+  <h1 id="titulo">Las Ceibas | Empresas Públicas de Neiva E.S.P</h1>
+  <p style="color: black;">Agua de todos</p>
+</div>
+
+<div class="container">
+  <h2 style="color: white;">Horarios de Atención</h2>
+  <p style="color: white;">A continuación, te presentamos nuestros horarios de atención:</p>
+
+  <table>
+    <tr>
+      <th style="color: white;">Día</th>
+      <th style="color: white;">Horario</th>
+    </tr>
+    <tr>
+      <td style="color: white;">Lunes - Viernes </td>
+      <td style="color: white;">7:00 AM - 6:00 PM</td>
+    </tr>
+  </table>
+  <p style="color: white;">Estamos ubicados en:</p>
+  <div id="map"></div>
+  <script>
+    function initMap() {
+      var coord = { lat: 2.925601, lng: -75.287086 };
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 10,
+        center: coord
+      });
+      var marker = new google.maps.Marker({
+        position: coord,
+        map: map
+      });
+    }
+  </script>
+
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEslMMKGA6pPeLnZgkv_KZ7XA_mjnUycU&callback=initMap"></script>
+  </body>
+{% if mensaje2 %}
+<script>
+  Swal.fire({
+    title: 'Ceibas PQR',
+    text: '{{mensaje2}}',
+    icon: 'info',
+    confirmButtonColor: 'black',
+    confirmButtonText: 'Aceptar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      location.href = "/"
+    }
+  });
+</script>
+
+
+
+{% endif %}
+{%endblock %}
+{% block piePagina %}
+{% include "piePagina.html" %}
+{%endblock %}

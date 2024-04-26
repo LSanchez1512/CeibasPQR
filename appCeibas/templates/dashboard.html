@@ -1,0 +1,29 @@
+
+{% extends "index.html" %}
+{% block menu %}
+{% include "menu.html" %}
+{%endblock %}
+{% block contenido %}
+{% load static %}
+
+
+    
+    
+      <a href="{% url 'crear_empleados' %}" class="nav-link">
+          <i class="fas fa-user-plus nav-icon"></i>
+        <p>
+          Crear Empleado
+          <span class="right badge badge-danger">New</span>
+        </p>
+      </a>
+    
+ 
+
+
+
+
+
+{%endblock %}
+{% block piePagina %}
+{% include "piePagina.html" %}
+{%endblock %}    

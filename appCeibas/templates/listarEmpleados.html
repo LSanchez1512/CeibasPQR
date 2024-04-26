@@ -1,0 +1,68 @@
+{% extends "index.html" %}
+{% block menu %}
+{%endblock %}
+{% block contenido %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <title>Lista Empleados</title>
+</head>
+<body>
+    {% for empleado in empleados%}
+
+        {{empleado.perNombres}}
+        {% csrf_token %}
+        <input type="checkbox" name="estado" class="check_usuario" {% if empleado.is_active %}checked{% endif %} data-id="{{empleado.id}}">
+    
+    {% endfor %}
+</body>
+
+
+<script>
+    $(document).ready(function() {
+        $('.check_usuario').change(function() {
+            let userId = $(this).data('id');
+            // Obtener el token CSRF del formulario
+            var csrf_token = $('[name="csrfmiddlewaretoken"]').val();
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "{% url 'estado_usuario' %}",
+                data: {
+                    'id': userId,
+                    'csrfmiddlewaretoken': csrf_token
+                },
+                success: function(data) {
+                    console.log(data.message);
+
+                    Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: data.message,
+                    showConfirmButton: false,
+                    timer: 900
+                    })
+
+                    /* if (data.icon == 'success'){
+                    toastr.success(data.message);
+                    }else if(data.icon =='error'){
+                        toastr.error(data.message);
+                    } */
+            
+                }
+            });
+        });
+    });
+</script>
+
+</html>
+{%endblock %}
+{% block piePagina %}
+{% include "piePagina.html" %}
+{%endblock %}
